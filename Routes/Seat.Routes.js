@@ -57,7 +57,6 @@ const generateSeatNumber = (seatIndex) => {
 
 //get All Booked Seats
 seatRouters.get("/",async (req,res)=>{
-
   BookModel.find()
     .then((trainSeatsBooking) => {
       res.send(trainSeatsBooking);
