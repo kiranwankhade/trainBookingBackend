@@ -58,20 +58,19 @@ const generateSeatNumber = (seatIndex) => {
 
 seatRouters.get("/",async (req,res)=>{
   
-  let retrieve = await ReserveModel.find();
-  console.log('retrieve:', retrieve)
-  res.send(retrieve)
+  // let retrieve = await ReserveModel.find();
+  // console.log('retrieve:', retrieve)
+  // res.send(retrieve)
 
-  // ReserveModel.find()
-  //   .then((trainSeatsBooking) => {
-  //     console.log("Home");
-  //     res.json(trainSeatsBooking);
-  //     res.send(trainSeatsBooking)
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error fetching booked seats:', error);
-  //     res.status(500).json({ error: 'Internal server error' });
-  //   });
+  ReserveModel.find()
+    .then((trainSeatsBooking) => {
+      console.log("Home");
+      res.json(trainSeatsBooking);
+    })
+    .catch((error) => {
+      console.error('Error fetching booked seats:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    });
 });
 
 
