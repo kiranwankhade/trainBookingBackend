@@ -2,9 +2,11 @@ const mongoose = require("mongoose");
 
 // Seat Reservation Schema
 const reservationSchema = new mongoose.Schema({
-    coachRow: Number,
     seatNumber: String,
-    isReserved: Boolean,
+    isReserved: {
+      type:Boolean,
+      default:false
+    }
 },{
     versionKey:false
 });
