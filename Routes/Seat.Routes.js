@@ -2,7 +2,7 @@ const express =  require("express");
 
 const seatRouters = express.Router();
 
-const {ReserveModel} =  require("../Model/Seat.Model");
+const {BookModel} =  require("../Model/Seat.Model");
 
 // Book seats
 const totalSeats = 80;
@@ -58,11 +58,11 @@ const generateSeatNumber = (seatIndex) => {
 
 seatRouters.get("/",async (req,res)=>{
   
-  // let retrieve = await ReserveModel.find();
+  // let retrieve = await BookModel.find();
   // console.log('retrieve:', retrieve)
   // res.send(retrieve)
 
-  ReserveModel.find()
+  BookModel.find()
     .then((trainSeatsBooking) => {
       console.log("Home");
       res.json(trainSeatsBooking);
@@ -83,7 +83,7 @@ seatRouters.post("/reserve",async(req,res) => {
     const seatDocuments = newBookedSeats.map((seatNumber) => ({ "seatNumber":seatNumber,"isReserved":true }));
     console.log('seatDocuments:', seatDocuments)
 
-    ReserveModel.insertMany(seatDocuments)
+    BookModel.insertMany(seatDocuments)
       .then(() => {
         res.json({ trainSeatsBooking: seatDocuments });
         console.log('newBookedSeats:', newBookedSeats)

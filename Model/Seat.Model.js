@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Seat Reservation Schema
-const reservationSchema = new mongoose.Schema({
+const bookedSchema = new mongoose.Schema({
     seatNumber: String,
     isReserved: {
       type:Boolean,
@@ -11,10 +11,10 @@ const reservationSchema = new mongoose.Schema({
     versionKey:false
 });
 
-const ReserveModel = mongoose.model("seatsbooks",reservationSchema);
+const BookModel = mongoose.model("seatsbooks",bookedSchema);
 
 module.exports = {
-    ReserveModel
+    BookModel
 }
 
 
