@@ -15,7 +15,7 @@ app.get("/",(req,res)=>{
     res.send("WELCOME TO Unstop HOME PAGE")
 })
 
-app.use("/seat",seatRouters)
+app.use("/seats",seatRouters)
 
 app.listen(process.env.port,async()=>{
     try{
