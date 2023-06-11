@@ -10,12 +10,12 @@ const { seatRouters } = require("./Routes/Seat.Routes");
 require('dotenv').config();
 const {connection} = require("./db");
 
-app.get("/",(req,res)=>{
-    console.log("HOME");
-    res.send("WELCOME TO Unstop HOME PAGE")
-})
+// app.get("/",(req,res)=>{
+//     console.log("HOME");
+//     res.send("WELCOME TO Unstop HOME PAGE")
+// })
 
-app.use("/seats",seatRouters)
+app.use("/",seatRouters)
 
 app.listen(process.env.port,async()=>{
     try{
