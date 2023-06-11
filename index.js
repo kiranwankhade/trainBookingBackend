@@ -2,16 +2,13 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
-var cors = require('cors')
-app.use(cors())
 
-require('dotenv').config();
 
-const {connection} = require("./db");
+
 const { seatRouters } = require("./Routes/Seat.Routes");
 
-
-
+require('dotenv').config();
+const {connection} = require("./db");
 
 app.get("/",(req,res)=>{
     console.log("HOME");
