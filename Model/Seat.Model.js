@@ -9,8 +9,6 @@ const reservationSchema = new mongoose.Schema({
     versionKey:false
 });
 
-
-
 const ReserveModel = mongoose.model("seatsbooks",reservationSchema);
 
 module.exports = {
