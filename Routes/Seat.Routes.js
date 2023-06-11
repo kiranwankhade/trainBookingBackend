@@ -62,7 +62,7 @@ seatRouters.get("/",async (req,res)=>{
   // res.send({"Post":retrieve})
   ReserveModel.find()
     .then((trainSeatsBooking) => {
-      res.json(trainSeatsBooking);
+      // res.json(trainSeatsBooking);
       res.send(trainSeatsBooking)
     })
     .catch((error) => {
