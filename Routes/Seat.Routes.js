@@ -1,6 +1,6 @@
 const express =  require("express");
 
-const seatRouters = express.Router();
+const seatRouters =  express.Router();
 
 const {BookModel} =  require("../Model/Seat.Model");
 
@@ -57,20 +57,28 @@ const generateSeatNumber = (seatIndex) => {
 
 
 seatRouters.get("/",async (req,res)=>{
-  
-  // let retrieve = await BookModel.find();
-  // console.log('retrieve:', retrieve)
-  // res.send(retrieve)
 
-  BookModel.find()
-    .then((trainSeatsBooking) => {
-      console.log("Home");
-      res.json(trainSeatsBooking);
-    })
-    .catch((error) => {
-      console.error('Error fetching booked seats:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    });
+  try{
+      let retrieve =  await  BookModel.find()
+      console.log('retrieve:', retrieve)
+      // .then((trainSeatsBooking) => {
+      //   console.log("Home");
+      //   res.json(trainSeatsBooking);
+      // })
+      res.send(retrieve)
+  }catch(err){
+    console.error('Error fetching booked seats:', err.message);
+  }
+
+  // BookModel.find()
+  //   .then((trainSeatsBooking) => {
+  //     console.log("Home");
+  //     res.json(trainSeatsBooking);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching booked seats:', error);
+  //     res.status(500).json({ error: 'Internal server error' });
+  //   });
 });
 
 
