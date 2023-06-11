@@ -54,7 +54,6 @@ const generateSeatNumber = (seatIndex) => {
     return (rowLetter + seatNumber);
 };
 
-
 //get All Booked Seats
 seatRouters.get("/",async (req,res)=>{
   BookModel.find()
