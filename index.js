@@ -3,8 +3,6 @@ const app = express();
 
 app.use(express.json());
 
-
-
 const { seatRouters } = require("./Routes/Seat.Routes");
 
 require('dotenv').config();
