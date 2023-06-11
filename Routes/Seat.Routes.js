@@ -55,12 +55,12 @@ const generateSeatNumber = (seatIndex) => {
 };
 
 
-
+//get All Booked Seats
 seatRouters.get("/",async (req,res)=>{
 
   BookModel.find()
     .then((trainSeatsBooking) => {
-      res.json(trainSeatsBooking);
+      res.send(trainSeatsBooking);
     })
     .catch((error) => {
       console.error('Error fetching booked seats:', error);
@@ -68,7 +68,7 @@ seatRouters.get("/",async (req,res)=>{
     });
 });
 
-
+//Reserve Seats
 seatRouters.post("/reserve",async(req,res) => {
   const seatCount = parseInt(req.body.seats);
   const newBookedSeats = trainSeatsBooking(seatCount);
