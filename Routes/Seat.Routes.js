@@ -58,7 +58,7 @@ const generateSeatNumber = (seatIndex) => {
 
 seatRouters.get("/",async (req,res)=>{
   console.log("Home");
-  let retrieve = await ReserveModel.find().then((trainSeatsBooking) => {return trainSeatsBooking});
+  let retrieve = await ReserveModel.find();
   res.send({"Post":retrieve})
   // ReserveModel.find()
   //   .then((trainSeatsBooking) => {
