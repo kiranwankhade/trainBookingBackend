@@ -61,6 +61,7 @@ seatRouters.get("/",async (req,res)=>{
   ReserveModel.find()
     .then((trainSeatsBooking) => {
       res.json(trainSeatsBooking);
+      res.send(trainSeatsBooking)
     })
     .catch((error) => {
       console.error('Error fetching booked seats:', error);
