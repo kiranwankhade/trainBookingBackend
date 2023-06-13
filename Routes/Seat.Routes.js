@@ -95,10 +95,7 @@ seatRouters.post("/reserve", async (req, res) => {
 
 //Delete
 seatRouters.delete("/delete", async (req, res) => {
-  await BookModel.deleteMany({isReserved:true})
-  
-  await BookModel.find()
-  .then((trainSeatsBooking) => {
+  await BookModel.deleteMany({isReserved:true}).then((trainSeatsBooking) => {
     console.log("data delete", trainSeatsBooking);
     res.send(trainSeatsBooking);
   })
@@ -106,6 +103,16 @@ seatRouters.delete("/delete", async (req, res) => {
     console.error("Error fetching booked seats:", error);
     res.status(500).json({ error: "Internal server error" });
   });
+  
+  // await BookModel.find()
+  // .then((trainSeatsBooking) => {
+  //   console.log("data delete", trainSeatsBooking);
+  //   res.send(trainSeatsBooking);
+  // })
+  // .catch((error) => {
+  //   console.error("Error fetching booked seats:", error);
+  //   res.status(500).json({ error: "Internal server error" });
+  // });
   
 });
 
