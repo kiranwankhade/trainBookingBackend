@@ -68,6 +68,14 @@ seatRouters.get("/", async (req, res) => {
 
 //Reserve Seats
 seatRouters.post("/reserve", async (req, res) => {
+
+  await  BookModel.find()
+  .then((trainSeatsBooking) => {
+    if(trainSeatsBooking.length === 0){
+       BookModel.deleteMany({});
+    }
+  })
+
   const seatCount = parseInt(req.body.seats);
   const newBookedSeats = trainSeatsBookingFunc(seatCount);
   console.log("newBookedSeats:", newBookedSeats);
@@ -78,6 +86,8 @@ seatRouters.post("/reserve", async (req, res) => {
       isReserved: true,
     }));
     console.log("seatDocuments:", seatDocuments);
+
+
 
     BookModel.insertMany(seatDocuments)
       .then(() => {
