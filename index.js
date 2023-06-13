@@ -8,6 +8,10 @@ const { seatRouters } = require("./Routes/Seat.Routes");
 require('dotenv').config();
 const {connection} = require("./db");
 
+var cors = require('cors')
+app.use(cors())
+
+
 app.get("/",(req,res)=>{
     console.log("HOME");
     res.send("WELCOME TO Unstop HOME PAGE")
