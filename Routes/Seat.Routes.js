@@ -55,14 +55,15 @@ const generateSeatNumber = (seatIndex) => {
 };
 
 //reset 
-const resetFun = () => {
-  BookModel.find()
-  .then((trainSeatsBooking) => {
-    if(trainSeatsBooking.length === 0){
-      // seatsArray = seatsArray.map(x=> false)
-      Array.fill(seatsArray,false)
-    }
-  })
+const resetFun = async() => {
+  let res = await BookModel.find()
+  console.log('res:', res.length)
+  // .then((trainSeatsBooking) => {
+  //   if(trainSeatsBooking.length === 0){
+  //     // seatsArray = seatsArray.map(x=> false)
+  //     Array.fill(seatsArray,false)
+  //   }
+  // })
 }
 
 //get All Booked Seats
