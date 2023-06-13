@@ -13,32 +13,81 @@ const seatsArray = new Array(totalSeats).fill(false);
 
 //Seat Booking Function
 
+// const trainSeatsBookingFunc = (seatCount) => {
+//   const result = [];
+
+//   // Check Availability
+//   for (let i = 0; i <= totalSeats - seatCount; i++) {
+//     //   check seat Rows
+//     let seatsPerRow =
+//       i < totalSeats - lastRowSeats ? totalSeatsInRow : lastRowSeats;
+
+//     if (
+//       (i % seatsPerRow) + seatCount <= seatsPerRow &&
+//       seatsArray.slice(i, i + seatCount).every((x) => x === false)
+//     ) {
+//       const newSeats = [...seatsArray];
+
+//       for (let j = 0; j < seatCount; j++) {
+//         newSeats[i + j] = true;
+//         result.push(generateSeatNumber(i + j));
+//       }
+//       seatsArray.splice(0, totalSeats, ...newSeats);
+//       break;
+//     }
+//   }
+
+//   return result;
+// };
+
+
 const trainSeatsBookingFunc = (seatCount) => {
   const result = [];
 
   // Check Availability
-  for (let i = 0; i <= totalSeats - seatCount; i++) {
-    //   check seat Rows
-    let seatsPerRow =
-      i < totalSeats - lastRowSeats ? totalSeatsInRow : lastRowSeats;
+  let startIndex = -1;
+  let seatsPerRow = 0;
 
+  // Check if seats are available in one row
+  for (let i = 0; i <= totalSeats - seatCount; i++) {
+    seatsPerRow = i < totalSeats - lastRowSeats ? totalSeatsInRow : lastRowSeats;
+    const availableSeats = seatsArray.slice(i, i + seatCount);
     if (
       (i % seatsPerRow) + seatCount <= seatsPerRow &&
-      seatsArray.slice(i, i + seatCount).every((x) => x === false)
+      availableSeats.every((x) => x === false)
     ) {
-      const newSeats = [...seatsArray];
-
-      for (let j = 0; j < seatCount; j++) {
-        newSeats[i + j] = true;
-        result.push(generateSeatNumber(i + j));
-      }
-      seatsArray.splice(0, totalSeats, ...newSeats);
+      startIndex = i;
       break;
     }
   }
 
+  // If seats are not available in one row, book nearby seats
+  if (startIndex === -1) {
+    let count = 0;
+    for (let i = 0; i < totalSeats; i++) {
+      if (seatsArray[i] === false) {
+        seatsArray[i] = true;
+        result.push(generateSeatNumber(i));
+        count++;
+        if (count === seatCount) {
+          break;
+        }
+      }
+    }
+  } else { //check nearby not 
+    const newSeats = [...seatsArray];
+    for (let j = 0; j < seatCount; j++) {
+      newSeats[startIndex + j] = true;
+      result.push(generateSeatNumber(startIndex + j));
+    }
+    seatsArray.splice(0, totalSeats, ...newSeats);
+  }
+
   return result;
 };
+
+
+
 
 // Generating Seat Number after Booking
 
@@ -108,31 +157,6 @@ seatRouters.post("/reserve", async (req, res) => {
 });
 
 //Delete
-// seatRouters.delete("/delete", async (req, res) => {
-  
-//   await BookModel.deleteMany({isReserved:true}).exec()
-//   .then((trainSeatsBooking) => {
-//     console.log("data delete", trainSeatsBooking);
-//     res.send(trainSeatsBooking);
-//   })
-//   .catch((error) => {
-//     console.error("Error fetching booked seats:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   });
-
-//   BookModel.findByIdAndRemove({isReserved:true})
-//   // resetFun();
-//   // await BookModel.find()
-//   // .then((trainSeatsBooking) => {
-//   //   console.log("data delete", trainSeatsBooking);
-//   //   res.send(trainSeatsBooking);
-//   // })
-//   // .catch((error) => {
-//   //   console.error("Error fetching booked seats:", error);
-//   //   res.status(500).json({ error: "Internal server error" });
-//   // });
-  
-// });
 
 seatRouters.delete("/delete", async (req, res) => {
   try {
