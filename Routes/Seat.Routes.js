@@ -105,9 +105,9 @@ seatRouters.post("/reserve", async (req, res) => {
 
 //Delete
 seatRouters.delete("/delete", async (req, res) => {
+  seatsArray = seatsArray.map(x => false);
   await BookModel.deleteMany({isReserved:true}).then((trainSeatsBooking) => {
     console.log("data delete", trainSeatsBooking);
-    seatsArray = seatsArray.map(x => false);
     res.send(trainSeatsBooking);
   })
   .catch((error) => {
