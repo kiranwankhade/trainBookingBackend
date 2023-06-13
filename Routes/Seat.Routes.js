@@ -97,11 +97,16 @@ seatRouters.post("/reserve", async (req, res) => {
 
 seatRouters.delete("/delete", async (req, res) => {
   await BookModel.deleteMany();
-
-  let retrieve = await BookModel.find();
-
-  console.log("data delete", retrieve);
-  res.send(retrieve);
+  BookModel.find()
+  .then((trainSeatsBooking) => {
+    console.log("data delete", trainSeatsBooking);
+    res.send(trainSeatsBooking);
+  })
+  .catch((error) => {
+    console.error("Error fetching booked seats:", error);
+    res.status(500).json({ error: "Internal server error" });
+  });
+  
 });
 
 module.exports = {
