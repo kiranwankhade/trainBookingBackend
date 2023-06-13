@@ -77,7 +77,7 @@ seatRouters.post("/reserve", async (req, res) => {
   await  BookModel.find()
   .then((trainSeatsBooking) => {
     if(trainSeatsBooking.length === 0){
-       BookModel.deleteMany({});
+      seatsArray = seatsArray.map(x=> false)
     }
   })
 
