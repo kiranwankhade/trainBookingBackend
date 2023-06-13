@@ -101,6 +101,7 @@ seatRouters.delete("/delete", async (req, res) => {
   .then((trainSeatsBooking) => {
     console.log("data delete", trainSeatsBooking);
     res.send(trainSeatsBooking);
+    res.redirect("/")
   })
   .catch((error) => {
     console.error("Error fetching booked seats:", error);
