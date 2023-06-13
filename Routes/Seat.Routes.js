@@ -95,13 +95,14 @@ seatRouters.post("/reserve", async (req, res) => {
 
 //Delete
 seatRouters.delete("/delete", async (req, res) => {
-  await BookModel.deleteMany();
+  await BookModel.find().then((trainSeatsBooking) =>{
+    trainSeatsBooking.remove({});
+  });
   
   await BookModel.find()
   .then((trainSeatsBooking) => {
     console.log("data delete", trainSeatsBooking);
     res.send(trainSeatsBooking);
-    res.redirect("/")
   })
   .catch((error) => {
     console.error("Error fetching booked seats:", error);
