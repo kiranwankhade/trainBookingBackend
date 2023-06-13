@@ -61,6 +61,7 @@ const resetFun = async () => {
   return BookModel.deleteMany({ isReserved: true })
     .then((trainSeatsBooking) => {
       console.log("Data deleted", trainSeatsBooking);
+      res.send(trainSeatsBooking);
     })
     .catch((error) => {
       console.error("Error deleting booked seats:", error);
