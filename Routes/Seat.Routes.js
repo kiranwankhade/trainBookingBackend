@@ -94,7 +94,6 @@ seatRouters.post("/reserve", async (req, res) => {
 });
 
 //Delete
-
 seatRouters.delete("/delete", async (req, res) => {
   await BookModel.deleteMany();
   
