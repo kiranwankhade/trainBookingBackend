@@ -14,7 +14,6 @@ const seatsArray = new Array(totalSeats).fill(false);
 //Seat Booking Function
 
 const trainSeatsBookingFunc = (seatCount) => {
-  resetFun();
   const result = [];
 
   // Check Availability
@@ -58,15 +57,7 @@ const generateSeatNumber = (seatIndex) => {
 //reset 
 const resetFun = async () => {
   seatsArray.fill(false);
-  return BookModel.deleteMany({ isReserved: true })
-    .then((trainSeatsBooking) => {
-      console.log("Data deleted", trainSeatsBooking);
-      res.send(trainSeatsBooking);
-    })
-    .catch((error) => {
-      console.error("Error deleting booked seats:", error);
-      throw error;
-    });
+  return BookModel.deleteMany({ isReserved: true });
 };
 
 //get All Booked Seats
@@ -86,7 +77,11 @@ seatRouters.post("/reserve", async (req, res) => {
   
   const seatCount = parseInt(req.body.seats);
 
-  
+  BookModel.find().then(async(trainSeatsBooking)=>{
+    if(trainSeatsBooking.length === 0){
+     await resetFun();
+    }
+  })
 
   const newBookedSeats = trainSeatsBookingFunc(seatCount);
   console.log("newBookedSeats:", newBookedSeats);
@@ -97,8 +92,6 @@ seatRouters.post("/reserve", async (req, res) => {
       isReserved: true,
     }));
     console.log("seatDocuments:", seatDocuments);
-
-
 
     BookModel.insertMany(seatDocuments)
       .then(() => {
@@ -143,9 +136,12 @@ seatRouters.post("/reserve", async (req, res) => {
 
 seatRouters.delete("/delete", async (req, res) => {
   try {
-    await BookModel.deleteMany({ isReserved: true });
-    await resetFun();
-    res.sendStatus(200);
+    await BookModel.deleteMany({ isReserved: true }).then((trainSeatsBooking) => {
+      console.log("Data deleted", trainSeatsBooking);
+      res.send(trainSeatsBooking);
+    });
+    resetFun();
+    
   } catch (error) {
     console.error("Error deleting and resetting seats:", error);
     res.status(500).json({ error: "Internal server error" });
