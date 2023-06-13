@@ -74,7 +74,7 @@ seatRouters.get("/", async (req, res) => {
 //Reserve Seats
 seatRouters.post("/reserve", async (req, res) => {
 
-  await  BookModel.find()
+  BookModel.find()
   .then((trainSeatsBooking) => {
     if(trainSeatsBooking.length === 0){
       seatsArray = seatsArray.map(x=> false)
