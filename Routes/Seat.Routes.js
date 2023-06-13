@@ -13,7 +13,7 @@ const seatsArray = new Array(totalSeats).fill(false);
 
 //Seat Booking Function
 
-const trainSeatsBooking = (seatCount) => {
+const trainSeatsBookingFunc = (seatCount) => {
   const result = [];
 
   // Check Availability
@@ -69,7 +69,7 @@ seatRouters.get("/", async (req, res) => {
 //Reserve Seats
 seatRouters.post("/reserve", async (req, res) => {
   const seatCount = parseInt(req.body.seats);
-  const newBookedSeats = trainSeatsBooking(seatCount);
+  const newBookedSeats = trainSeatsBookingFunc(seatCount);
   console.log("newBookedSeats:", newBookedSeats);
 
   if (newBookedSeats.length > 0) {
