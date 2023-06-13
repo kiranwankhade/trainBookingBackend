@@ -54,6 +54,11 @@ const generateSeatNumber = (seatIndex) => {
   return rowLetter + seatNumber;
 };
 
+//reset 
+const resetFun = () => {
+  seatsArray = seatsArray.map(x => false)
+}
+
 //get All Booked Seats
 seatRouters.get("/", async (req, res) => {
   BookModel.find()
@@ -105,9 +110,8 @@ seatRouters.post("/reserve", async (req, res) => {
 
 //Delete
 seatRouters.delete("/delete", async (req, res) => {
-  await BookModel.deleteMany({isReserved:true},function(){
-    seatsArray = seatsArray.map(x => false)
-  })
+  resetFun();
+  await BookModel.deleteMany({isReserved:true})
   .then((trainSeatsBooking) => {
     console.log("data delete", trainSeatsBooking);
     res.send(trainSeatsBooking);
