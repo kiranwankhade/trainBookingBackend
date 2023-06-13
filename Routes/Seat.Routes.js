@@ -14,6 +14,7 @@ const seatsArray = new Array(totalSeats).fill(false);
 //Seat Booking Function
 
 const trainSeatsBookingFunc = (seatCount) => {
+  resetFun();
   const result = [];
 
   // Check Availability
@@ -56,14 +57,13 @@ const generateSeatNumber = (seatIndex) => {
 
 //reset 
 const resetFun = async() => {
-  let res = await BookModel.find()
-  console.log('res:', res.length)
-  // .then((trainSeatsBooking) => {
-  //   if(trainSeatsBooking.length === 0){
-  //     // seatsArray = seatsArray.map(x=> false)
-  //     Array.fill(seatsArray,false)
-  //   }
-  // })
+ await BookModel.find()
+  .then((trainSeatsBooking) => {
+    if(trainSeatsBooking.length === 0){
+      // seatsArray = seatsArray.map(x=> false)
+      Array.fill(seatsArray,false)
+    }
+  })
 }
 
 //get All Booked Seats
@@ -81,7 +81,7 @@ seatRouters.get("/", async (req, res) => {
 //Reserve Seats
 seatRouters.post("/reserve", async (req, res) => {
 
-  resetFun();
+ 
 
   const seatCount = parseInt(req.body.seats);
   const newBookedSeats = trainSeatsBookingFunc(seatCount);
