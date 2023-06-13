@@ -56,15 +56,17 @@ const generateSeatNumber = (seatIndex) => {
 };
 
 //reset 
-const resetFun = async() => {
- await BookModel.find()
-  .then((trainSeatsBooking) => {
-    if(trainSeatsBooking.length === 0){
-      // seatsArray = seatsArray.map(x=> false)
-      Array.fill(seatsArray,false)
-    }
-  })
-}
+const resetFun = async () => {
+  seatsArray.fill(false);
+  return BookModel.deleteMany({ isReserved: true })
+    .then((trainSeatsBooking) => {
+      console.log("Data deleted", trainSeatsBooking);
+    })
+    .catch((error) => {
+      console.error("Error deleting booked seats:", error);
+      throw error;
+    });
+};
 
 //get All Booked Seats
 seatRouters.get("/", async (req, res) => {
@@ -80,10 +82,11 @@ seatRouters.get("/", async (req, res) => {
 
 //Reserve Seats
 seatRouters.post("/reserve", async (req, res) => {
-
- 
-
+  
   const seatCount = parseInt(req.body.seats);
+
+  
+
   const newBookedSeats = trainSeatsBookingFunc(seatCount);
   console.log("newBookedSeats:", newBookedSeats);
 
@@ -111,28 +114,41 @@ seatRouters.post("/reserve", async (req, res) => {
 });
 
 //Delete
+// seatRouters.delete("/delete", async (req, res) => {
+  
+//   await BookModel.deleteMany({isReserved:true}).exec()
+//   .then((trainSeatsBooking) => {
+//     console.log("data delete", trainSeatsBooking);
+//     res.send(trainSeatsBooking);
+//   })
+//   .catch((error) => {
+//     console.error("Error fetching booked seats:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   });
+
+//   BookModel.findByIdAndRemove({isReserved:true})
+//   // resetFun();
+//   // await BookModel.find()
+//   // .then((trainSeatsBooking) => {
+//   //   console.log("data delete", trainSeatsBooking);
+//   //   res.send(trainSeatsBooking);
+//   // })
+//   // .catch((error) => {
+//   //   console.error("Error fetching booked seats:", error);
+//   //   res.status(500).json({ error: "Internal server error" });
+//   // });
+  
+// });
+
 seatRouters.delete("/delete", async (req, res) => {
-  // resetFun();
-  await BookModel.deleteMany({isReserved:true})
-  .then((trainSeatsBooking) => {
-    console.log("data delete", trainSeatsBooking);
-    res.send(trainSeatsBooking);
-  })
-  .catch((error) => {
-    console.error("Error fetching booked seats:", error);
+  try {
+    await BookModel.deleteMany({ isReserved: true });
+    await resetFun();
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Error deleting and resetting seats:", error);
     res.status(500).json({ error: "Internal server error" });
-  });
-  
-  // await BookModel.find()
-  // .then((trainSeatsBooking) => {
-  //   console.log("data delete", trainSeatsBooking);
-  //   res.send(trainSeatsBooking);
-  // })
-  // .catch((error) => {
-  //   console.error("Error fetching booked seats:", error);
-  //   res.status(500).json({ error: "Internal server error" });
-  // });
-  
+  }
 });
 
 module.exports = {
