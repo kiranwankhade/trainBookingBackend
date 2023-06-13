@@ -56,7 +56,13 @@ const generateSeatNumber = (seatIndex) => {
 
 //reset 
 const resetFun = () => {
-  seatsArray = seatsArray.map(x => false)
+  BookModel.find()
+  .then((trainSeatsBooking) => {
+    if(trainSeatsBooking.length === 0){
+      // seatsArray = seatsArray.map(x=> false)
+      Array.fill(seatsArray,false)
+    }
+  })
 }
 
 //get All Booked Seats
@@ -74,12 +80,7 @@ seatRouters.get("/", async (req, res) => {
 //Reserve Seats
 seatRouters.post("/reserve", async (req, res) => {
 
-  BookModel.find()
-  .then((trainSeatsBooking) => {
-    if(trainSeatsBooking.length === 0){
-      seatsArray = seatsArray.map(x=> false)
-    }
-  })
+  resetFun();
 
   const seatCount = parseInt(req.body.seats);
   const newBookedSeats = trainSeatsBookingFunc(seatCount);
